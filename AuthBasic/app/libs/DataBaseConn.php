@@ -32,10 +32,10 @@ class DataBaseConn {
 
     /**
      * Funkcja wstawia rekordy do bazy danych.
-     * Za pomodą metody implode() rozbijane są tablice na string'i,
+     * Za pomodą metody implode() tablice rozbijane są na string'i,
      * które potem są używanie to stworzenia zapytania do bazy danych
      * @param string $table Nazwa tabeli w bazie
-     * @param array $col Nazwy kolumn w bazie do których mają zostać przypisane wartości
+     * @param array $col Nazwy kolumn w tabeli do których mają zostać przypisane wartości
      * @param array $val Wartości, które zostaną przypisane do rekordu
      */
     public function put(string $table, $col, $val) {
@@ -57,12 +57,19 @@ class DataBaseConn {
             die("Query failed: " . $this->conn->error);
         }
 
-        return $this->conn->insert_id;
+        // return $this->conn->insert_id;
     }
 
     /**
      * Funkcja wybiera rekordy z bazy danych.
-     * 
+     * Za pomocą metody implode() rozbijane są na string'i,
+     * które potem są używanie to stworzenia zapytania do bazy danych
+     * Jest możliwość podania dodatkowej opcji WHERE, która pozwoli
+     * uszczegółowić zapytanie
+     * @param string $table Nazwa tabeli w bazie
+     * @param array $col Nazwy kolumn w tabeli, z których odczytane mają być dane
+     * @param array $options Daje możliwość użycia klauzuli WHERE
+     * @return array $data Tablica z rekordami
      */
     public function get(string $table, $col = array(), $options = array()) {
         if (!is_array($col)) {
